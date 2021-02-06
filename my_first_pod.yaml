@@ -4,6 +4,9 @@ metadata:
   name: my-pod
   labels:
     app: webserver
+  annotations:
+    version: latest
+    release_date: 2021-02-06
 spec:
   containers:
   - name: pod-demo
