@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-development
+  template:
+    metadata:
+      labels:
+        app: my-development
+    spec:
+      containers:
+        - name: webapp
+          image: zxcvbnius/docker-demo
+          ports:
+            - name: webapp-port
+              containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /
+              port: webapp-port
+            initialDelaySeconds: 15 # 延遲幾秒才做 healthy check
+            periodSeconds: 15 # 每個幾秒做 healthy check
+            timeoutSeconds: 30
+            successThreshold: 1 # 訪問幾次成功就代表運程正常
+            failureThreshold: 3 # 訪問幾次失敗就代表運行失敗
